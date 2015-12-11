@@ -11,9 +11,9 @@ namespace GreeterMVCApp.Controllers
     public class GreetingController : Controller
     {
         private readonly IDateTimeService _dateTimeService;
-        private readonly Greeter _greeter;
+        private readonly IGreeter _greeter;
 
-        public GreetingController(IDateTimeService dateTimeService, Greeter greeter)
+        public GreetingController(IDateTimeService dateTimeService, IGreeter greeter)
         {
             _dateTimeService = dateTimeService;
             _greeter = greeter;

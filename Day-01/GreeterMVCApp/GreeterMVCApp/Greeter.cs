@@ -2,7 +2,7 @@
 
 namespace GreeterMVCApp
 {
-    public class Greeter
+    public class Greeter : IGreeter
     {
         private readonly IDateTimeService _dateTimeService;
         public string Name { get; set; }
@@ -15,7 +15,7 @@ namespace GreeterMVCApp
 
         public void Greet()
         {
-            var currentHour = DateTime.Now.Hour;
+            var currentHour = _dateTimeService.GetCurrentTime().Hour;
             string greetMsg;
             if (currentHour < 12)
             {
