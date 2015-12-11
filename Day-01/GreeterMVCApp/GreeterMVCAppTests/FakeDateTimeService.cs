@@ -3,7 +3,7 @@ using GreeterMVCApp;
 
 namespace GreeterMVCAppTests
 {
-    public class FakeDateTimeService : IDateTimeService
+   /* public class FakeDateTimeService : IDateTimeService
     {
         private readonly DateTime _dateTime;
 
@@ -16,5 +16,5 @@ namespace GreeterMVCAppTests
         {
             return _dateTime;
         }
-    }
+    }*/
 }

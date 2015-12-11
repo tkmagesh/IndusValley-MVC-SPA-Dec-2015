@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GreeterMVCAppTests
 {
-    public class FakeGreeter : IGreeter
+   /* public class FakeGreeter : IGreeter
     {
         public string Name { get; set; }
         public string GreetMsg { get; set; }
@@ -13,7 +13,7 @@ namespace GreeterMVCAppTests
         {
             GreetMsg = "dummy message";
         }
-    }
+    }*/
 
     [TestClass]
     public class GreetingControllerTests
@@ -22,9 +22,13 @@ namespace GreeterMVCAppTests
         public void RendersMorningViewForMorning()
         {
             //Arrange
-            var fakeDateTimeServiceForMorning = new FakeDateTimeService(new DateTime(2015, 12, 12, 9, 0, 0));
-            var fakeGreeter = new FakeGreeter();
-            var greetingController = new GreetingController(fakeDateTimeServiceForMorning, fakeGreeter);
+            var mockDateTimeService = new Moq.Mock<IDateTimeService>();
+            mockDateTimeService.Setup(s => s.GetCurrentTime()).Returns(new DateTime(2015, 12, 12, 9, 0, 0));
+
+            var greeterMockery = new Moq.Mock<IGreeter>();
+            greeterMockery.Setup(g => g.GreetMsg).Returns("dummy message");
+            var fakeGreeter = greeterMockery.Object;
+            var greetingController = new GreetingController(mockDateTimeService.Object, fakeGreeter);
 
 
             //Act
@@ -39,9 +43,14 @@ namespace GreeterMVCAppTests
         public void RendersMorningViewForEvening()
         {
             //Arrange
-            var fakeDateTimeServiceForEvening = new FakeDateTimeService(new DateTime(2015, 12, 12, 19, 0, 0));
-            var fakeGreeter = new FakeGreeter();
-            var greetingController = new GreetingController(fakeDateTimeServiceForEvening, fakeGreeter);
+            var mockDateTimeService = new Moq.Mock<IDateTimeService>();
+            mockDateTimeService.Setup(s => s.GetCurrentTime()).Returns(new DateTime(2015, 12, 12, 15, 0, 0));
+
+            var greeterMockery = new Moq.Mock<IGreeter>();
+            greeterMockery.Setup(g => g.GreetMsg).Returns("dummy message");
+            var fakeGreeter = greeterMockery.Object;
+
+            var greetingController = new GreetingController(mockDateTimeService.Object, fakeGreeter);
 
 
             //Act
@@ -54,11 +63,13 @@ namespace GreeterMVCAppTests
         [TestMethod]
         public void RendersTheMessageFromGreeter()
         {
-            //Arrange
-            var fakeDateTimeServiceForMorning = new FakeDateTimeService(new DateTime(2015, 12, 12, 9, 0, 0));
-            var fakeGreeter = new FakeGreeter();
-            var greetingController = new GreetingController(fakeDateTimeServiceForMorning, fakeGreeter);
+            var mockDateTimeService = new Moq.Mock<IDateTimeService>();
+            mockDateTimeService.Setup(s => s.GetCurrentTime()).Returns(new DateTime(2015, 12, 12, 15, 0, 0));
 
+            var greeterMockery = new Moq.Mock<IGreeter>();
+            greeterMockery.Setup(g => g.GreetMsg).Returns("dummy message");
+            var fakeGreeter = greeterMockery.Object;
+            var greetingController = new GreetingController(mockDateTimeService.Object, fakeGreeter);
 
             //Act
             var result = greetingController.Greet("Magesh");
