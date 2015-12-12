@@ -1,0 +1,23 @@
+﻿@using BugTrackerApp.Services
+@model BugTrackerApp.Models.BugListViewModel
+
+@{
+    ViewBag.Title = "Bugs List";
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head><title></title></head>
+    <body>
+        <h1>Bugs</h1>
+        <hr />
+        <h3 style="display: inline">@Model.Total</h3> / <h4 style="display: inline; color: red; text-decoration: line-through">@Model.ClosedCount</h4>
+        <br />
+        <ol>
+            @foreach (var bug in Model.Bugs)
+            {
+                <li>@bug.Name</li>
+            }
+        </ol>
+        <a href="/bugs/New">Create New</a>
+    </body>
+</html>
