@@ -1,0 +1,24 @@
+@model BugTrackerApp.Models.Bug
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>title</title>
+    </head>
+    <body>
+        <div>
+            <form  method="post">
+                <label>Bug :</label>
+                <input type="text" name="name" value="@Model.Name" />
+                <label> Closed ? </label>
+                <input type="checkbox" name="IsClosed" checked="@Model.IsClosed" value="true" />
+                <input type="submit"  value="Save" />
+            </form>
+        </div>
+    </body>
+</html>

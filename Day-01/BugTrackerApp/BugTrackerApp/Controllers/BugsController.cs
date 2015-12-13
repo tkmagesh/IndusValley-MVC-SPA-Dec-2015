@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -46,6 +46,20 @@ namespace BugTrackerApp.Controllers
         {
             _bugService.Add(newBugName);
             return RedirectToAction("List");
+        }
+
+        [HttpGet]
+        public ViewResult Edit(int Id)
+        {
+            var bug = _bugService.Bugs.First(b => b.Id == Id);
+            return View(bug);
+        }
+
+        [HttpPost]
+        public ViewResult Edit(Bug bug)
+        {
+            //var bug = _bugService.Bugs.First(b => b.Id == Id);
+            return View(bug);
         }
     }
 }
