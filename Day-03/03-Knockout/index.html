@@ -16,12 +16,27 @@
             font-size: 22pt;
         }
     </style>
-    <script src="jquery-2.1.4.min.js"></script>
+    <script src="jquery-2.1.4.js"></script>
+    <script src="knockout-3.4.0.debug.js"></script>
     <script>
     Object.prototype.toInt = function(){
         return parseInt(this,10);
     };
-    function SalaryCalculator(){
+
+        function SalaryCalculator(){
+            this.basic = ko.observable(0);
+            this.hra = ko.observable(0);
+            this.da = ko.observable(0);
+            this.tax = ko.observable(0);
+            this.salary = ko.observable(0);
+        }
+        SalaryCalculator.prototype.calculate = function(){
+            var gross = this.basic().toInt() + this.hra().toInt() + this.da().toInt();
+            var net = gross * ((100-this.tax().toInt())/100);
+            this.salary(net);
+        }
+
+    /*function SalaryCalculator(){
         var _data = {
             basic : 0,
             hra : 0,
@@ -59,34 +74,10 @@
         var net = gross * ((100-this.get('tax'))/100);
         this.set('salary', net);
     }
+    */
 
-    function GreeterView(model, templateId){
-        var template = '';
-        var $el = this.$el = $("<div></div>");
 
-        $el.on("change", "#txtName", function(){
-            model.set('name', this.value);
-        });
-        $el.on('click',"#btnGreet", function(){
-            model.greet();
-        });
-
-        //React to Model Changes
-        model.onChange('name', function(){
-            $("#txtName", $el).val(this.get('name'));
-        });
-        model.onChange('message', function(){
-            $("#divMessage", $el).html(this.get('message'));
-        });
-
-        this.render = function(){
-            var template = $(templateId).html();
-            $el.append(template);
-            return this;
-        };
-    }
-
-    function SalaryCalculatorView(calculator, templateId){
+   /* function SalaryCalculatorView(calculator, templateId){
         var $el = this.$el = $("<div></div>");
         //this.init = function(){
             $el.on("change", "#txtBasic", function(){
@@ -129,29 +120,35 @@
             $el.append(templateHtml);
             return this;
         }
-    }
+    }*/
 
     </script>
-    <script type="text/x-template" id="calculatorTemplate">
-    <div class="content">
-        <div class="field"><label for="">Basic :</label><input type="text" name="" id="txtBasic"></div>
-        <div class="field"><label for="">HRA :</label><input type="text" name="" id="txtHra"></div>
-        <div class="field"><label for="">DA :</label><input type="text" name="" id="txtDa"></div>
-        <div class="field">
-            <label for="">Tax[%]</label>
-            <input type="range" name="" id="rangeTax" min="0" max="30" value="0">
-            <span id="spanTax">[Tax]</span>
-        </div>
-        <div class="field"><input type="button" value="Calculate" id="btnCalculate"></div>
-        <div class="field">
-            <div id="divResult">[Salary]</div>
-        </div>
-    </div>
-    </script>
+
 </head>
 <body>
     <h1>Salary Calculator</h1>
     <hr>
-
+    <div class="content">
+        <div class="field"><label for="">Basic :</label>
+        <input type="text" name="" id="txtBasic" data-bind="value : basic">
+    </div>
+        <div class="field"><label for="">HRA :</label>
+        <input type="text" name="" id="txtHra" data-bind="value : hra">
+    </div>
+        <div class="field"><label for="">DA :</label>
+        <input type="text" name="" id="txtDa" data-bind="value : da">
+        </div>
+        <div class="field">
+            <label for="">Tax[%]</label>
+            <input type="range" name="" id="rangeTax" min="0" max="30" data-bind="value : tax" >
+            <span id="spanTax" data-bind="html : tax"></span>
+        </div>
+        <div class="field">
+            <input type="button" value="Calculate" id="btnCalculate" data-bind="click : calculate">
+        </div>
+        <div class="field">
+            <div id="divResult" data-bind="html : salary"></div>
+        </div>
+    </div>
 </body>
 </html>
