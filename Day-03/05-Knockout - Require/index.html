@@ -16,25 +16,8 @@
             font-size: 22pt;
         }
     </style>
-    <script src="jquery-2.1.4.js"></script>
-    <script src="knockout.js"></script>
-    <script src="SalaryCalculator.js"></script>
-
-    <script>
-    Object.prototype.toInt = function(){
-        return parseInt(this,10);
-    };
-    $(function(){
-        var calculator = new SalaryCalculator();
-        ko.applyBindings(calculator);
-    });
-
-
-
-
-    </script>
-
-</head>
+    <script src="require.js" data-main="main.js"></script>
+    </head>
 <body>
     <h1>Salary Calculator</h1>
     <hr>
